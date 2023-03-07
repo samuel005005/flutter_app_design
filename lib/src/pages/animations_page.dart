@@ -30,6 +30,7 @@ class _SquareAnimadedState extends State<SquareAnimaded>
 
   late Animation<double> rotate;
   late Animation<double> opacity;
+  late Animation<double> opacityOut;
   late Animation<double> moveRight;
   late Animation<double> enlarge;
 
@@ -56,6 +57,16 @@ class _SquareAnimadedState extends State<SquareAnimaded>
       ),
     );
 
+    opacityOut = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: const Interval(
+          0.75,
+          1.0,
+          curve: Curves.easeOut,
+        ),
+      ),
+    );
     moveRight = Tween(begin: 0.0, end: 200.0).animate(
       CurvedAnimation(
         parent: animationController,
@@ -101,7 +112,7 @@ class _SquareAnimadedState extends State<SquareAnimaded>
         child: Transform.rotate(
           angle: rotate.value,
           child: Opacity(
-            opacity: opacity.value,
+            opacity: opacity.value - opacityOut.value,
             child: Transform.scale(
               scale: enlarge.value,
               child: childRentangle,

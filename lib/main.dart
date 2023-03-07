@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_design/src/pages/animations_page.dart';
+import 'package:flutter_app_design/src/%20challenges/square_animaded.dart';
 
 void main() => runApp(const MyApp());
 
@@ -9,8 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Diseños App',
-        home: AnimationPage());
+      debugShowCheckedModeBanner: false,
+      title: 'Diseños App',
+      home: SquareAnimadedPage(),
+    );
   }
 }
