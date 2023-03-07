@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_design/src/%20challenges/square_animaded.dart';
+import 'package:flutter_app_design/src/pages/circular_progress_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Diseños App',
-      home: SquareAnimadedPage(),
+      home: CircularProgressPage(),
     );
   }
 }
