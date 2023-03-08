@@ -80,7 +80,7 @@ class _MyRadialProsgress extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // Circle Completed
     final paint = Paint()
-      ..strokeWidth = 4
+      ..strokeWidth = 20
       ..color = Colors.grey
       ..style = PaintingStyle.stroke;
 
