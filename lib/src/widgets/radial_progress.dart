@@ -7,6 +7,7 @@ class RadialProgress extends StatefulWidget {
   final double percentage;
   final Color primaryColor;
   final Color secondaryColor;
+  final double primaryThickness;
   final double secondaryThickness;
 
   const RadialProgress({
@@ -14,6 +15,7 @@ class RadialProgress extends StatefulWidget {
     required this.percentage,
     this.primaryColor = Colors.blue,
     this.secondaryColor = Colors.grey,
+    this.primaryThickness = 10,
     this.secondaryThickness = 4,
   });
 
@@ -78,9 +80,13 @@ class _RadialProgressState extends State<RadialProgress>
             painter: _MyRadialProsgress(
               primaryColor: widget.primaryColor,
               secondaryColor: widget.secondaryColor,
+              primaryThickness: widget.primaryThickness,
               secondaryThickness: widget.secondaryThickness,
               percentage: (widget.percentage - animatedDifference) +
                   (animatedDifference * animationController.value),
+            ),
+            child: Center(
+              child: Text('${widget.percentage}%'),
             ),
           ),
         );
@@ -93,11 +99,14 @@ class _MyRadialProsgress extends CustomPainter {
   final double percentage;
   final Color primaryColor;
   final Color secondaryColor;
+  final double primaryThickness;
   final double secondaryThickness;
+
   _MyRadialProsgress({
     required this.percentage,
     required this.primaryColor,
     required this.secondaryColor,
+    required this.primaryThickness,
     required this.secondaryThickness,
   });
 
@@ -114,8 +123,9 @@ class _MyRadialProsgress extends CustomPainter {
     canvas.drawCircle(center, radius, paint);
     // Arco
     final painArco = Paint()
-      ..strokeWidth = 10
+      ..strokeWidth = primaryThickness
       ..color = primaryColor
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     double arcAngle = 2 * pi * (percentage / 100);
