@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_app_design/src/pages/slideshow_page.dart';
+import 'package:flutter_app_design/src/bloc/bloc_main.dart';
 
 void main() => runApp(const MyApp());
 
@@ -9,10 +8,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Diseños App',
-      home: SlideShowPage(),
+      home: BlocMain(),
     );
   }
 }
