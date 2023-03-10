@@ -10,14 +10,22 @@ class BlocMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Productos (xx)'),
+        title: StreamBuilder<int>(
+          stream: productsBloc.counterProducts,
+          builder: (context, snapshot) =>
+              Text('Productos (${snapshot.data ?? 0})'),
+        ),
       ),
       body: StreamBuilder<List<String>>(
         stream: productsBloc.getProducts,
         builder: (context, snapshot) {
-          print(snapshot.data);
+          final products = snapshot.data ?? [];
+
           return ListView.builder(
-            itemBuilder: (context, index) => const ListTile(title: Text("ABC")),
+            itemCount: products.length,
+            itemBuilder: (context, index) => ListTile(
+              title: Text(products[index]),
+            ),
           );
         },
       ),
