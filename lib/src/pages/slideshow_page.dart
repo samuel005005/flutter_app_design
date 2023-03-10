@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_design/src/bloc/slidershow/slidershow_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SlideShowPage extends StatelessWidget {
@@ -8,15 +10,19 @@ class SlideShowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: BlocProvider(
+        create: (context) => SlidershowBloc(),
+        child: Center(
           child: Column(
-        children: [
-          Expanded(
-            child: _Slides(),
+            children: [
+              Expanded(
+                child: _Slides(),
+              ),
+              const _Dots(),
+            ],
           ),
-          const _Dots(),
-        ],
-      )),
+        ),
+      ),
     );
   }
 }
@@ -47,14 +53,24 @@ class _Dot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 10,
-      height: 10,
-      margin: const EdgeInsets.symmetric(horizontal: 5),
-      decoration: const BoxDecoration(
-        color: Colors.grey,
-        shape: BoxShape.circle,
-      ),
+    return BlocBuilder<SlidershowBloc, SlidershowState>(
+      builder: (context, state) {
+        final pageViewIndex =
+            state is SlidershowGetPage ? state.currentPage : 0.0;
+
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          width: 10,
+          height: 10,
+          margin: const EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            color: (pageViewIndex >= index - 0.5 && pageViewIndex < index + 0.5)
+                ? Colors.red
+                : Colors.grey,
+            shape: BoxShape.circle,
+          ),
+        );
+      },
     );
   }
 }
@@ -73,6 +89,9 @@ class _SlidesState extends State<_Slides> {
       if (kDebugMode) {
         print('Current Page: ${pageViewController.page}');
       }
+      context
+          .read<SlidershowBloc>()
+          .add(GetCurrentPage(currentPage: pageViewController.page!));
     });
     super.initState();
   }

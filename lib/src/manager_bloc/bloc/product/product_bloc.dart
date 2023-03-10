@@ -12,7 +12,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
   void _onGetProducts(GetProducts event, Emitter<ProductState> emit) async {
-    // emit(LoadedProducts(products: event.products));
     emit(ProductLoadingState());
     await Future.delayed(const Duration(seconds: 2));
     emit(const LoadedProducts(products: listrProducts));
