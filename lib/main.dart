@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_design/src/pages/slideshow_page.dart';
+import 'package:flutter_app_design/src/pages/slideshow_page.dart  ';
 
 void main() => runApp(const MyApp());
 
