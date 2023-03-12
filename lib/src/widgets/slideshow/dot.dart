@@ -20,6 +20,8 @@ class Dot extends StatelessWidget {
             pageViewIndex: pageViewIndex,
             primaryColor: state.primaryColor,
             secundaryColor: state.secundaryColor,
+            primaryBullet: state.primaryBullet,
+            secundaryBullet: state.secundaryBullet,
           );
         }
 
@@ -28,6 +30,8 @@ class Dot extends StatelessWidget {
           pageViewIndex: 0,
           primaryColor: state.primaryColor,
           secundaryColor: state.secundaryColor,
+          primaryBullet: state.primaryBullet,
+          secundaryBullet: state.secundaryBullet,
         );
       },
     );
@@ -39,24 +43,32 @@ class _ContainerDoc extends StatelessWidget {
   final double pageViewIndex;
   final Color primaryColor;
   final Color secundaryColor;
+  final double primaryBullet;
+  final double secundaryBullet;
   const _ContainerDoc({
     required this.index,
     required this.pageViewIndex,
     required this.primaryColor,
     required this.secundaryColor,
+    required this.primaryBullet,
+    required this.secundaryBullet,
   });
 
   @override
   Widget build(BuildContext context) {
+    double size = secundaryBullet;
+    Color color = secundaryColor;
+    if (pageViewIndex >= index - 0.5 && pageViewIndex < index + 0.5) {
+      size = primaryBullet;
+      color = primaryColor;
+    }
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      width: 10,
-      height: 10,
+      width: size,
+      height: size,
       margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
-        color: (pageViewIndex >= index - 0.5 && pageViewIndex < index + 0.5)
-            ? primaryColor
-            : secundaryColor,
+        color: color,
         shape: BoxShape.circle,
       ),
     );

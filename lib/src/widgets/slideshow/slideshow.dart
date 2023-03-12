@@ -10,20 +10,26 @@ class SlideShow extends StatelessWidget {
   final bool indicationUpPosition;
   final Color primaryColor;
   final Color secundaryColor;
-
+  final double primaryBullet;
+  final double secundaryBullet;
   const SlideShow({
     super.key,
     this.slides = const <Widget>[],
     this.indicationUpPosition = false,
     this.primaryColor = Colors.blue,
     this.secundaryColor = Colors.grey,
+    this.primaryBullet = 20,
+    this.secundaryBullet = 12,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SlidershowBloc(
-          primaryColor: primaryColor, secundaryColor: secundaryColor),
+          primaryColor: primaryColor,
+          secundaryColor: secundaryColor,
+          primaryBullet: primaryBullet,
+          secundaryBullet: secundaryBullet),
       child: SafeArea(
         child: Center(
           child: _CreateStructSlideShow(

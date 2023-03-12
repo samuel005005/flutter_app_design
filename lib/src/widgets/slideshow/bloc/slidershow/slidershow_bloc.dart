@@ -8,14 +8,22 @@ part 'slidershow_state.dart';
 class SlidershowBloc extends Bloc<SlidershowEvent, SlidershowState> {
   final Color primaryColor;
   final Color secundaryColor;
-  SlidershowBloc({required this.primaryColor, required this.secundaryColor})
-      : super(SlidershowInitial(primaryColor, secundaryColor)) {
+  final double primaryBullet;
+  final double secundaryBullet;
+  SlidershowBloc(
+      {required this.primaryColor,
+      required this.secundaryColor,
+      required this.primaryBullet,
+      required this.secundaryBullet})
+      : super(SlidershowInitial(
+            primaryColor, secundaryColor, primaryBullet, secundaryBullet)) {
     on<GetCurrentPage>(_onGetCurrentPage);
   }
 
   void _onGetCurrentPage(
       GetCurrentPage event, Emitter<SlidershowState> emit) async {
-    emit(SlidershowGetPage(primaryColor, secundaryColor,
+    emit(SlidershowGetPage(
+        primaryColor, secundaryColor, primaryBullet, secundaryBullet,
         currentPage: event.currentPage));
   }
 }
