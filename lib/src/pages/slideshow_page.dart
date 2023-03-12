@@ -11,7 +11,8 @@ class SlideShowPage extends StatelessWidget {
     return Scaffold(
       body: SlideShow(
         indicationUpPosition: false,
-        primaryColor: Colors.pink,
+        primaryColor: Colors.deepPurple,
+        secundaryColor: Colors.red,
         slides: <Widget>[
           SvgPicture.asset('assets/svgs/slide-1.svg'),
           SvgPicture.asset('assets/svgs/slide-2.svg'),

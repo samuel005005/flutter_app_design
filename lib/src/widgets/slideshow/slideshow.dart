@@ -22,20 +22,37 @@ class SlideShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SlidershowBloc(),
+      create: (context) => SlidershowBloc(
+          primaryColor: primaryColor, secundaryColor: secundaryColor),
       child: SafeArea(
         child: Center(
-          child: Column(
-            children: [
-              if (indicationUpPosition) Dots(slideCount: slides.length),
-              Expanded(
-                child: Slides(slides: slides),
-              ),
-              if (!indicationUpPosition) Dots(slideCount: slides.length),
-            ],
-          ),
+          child: _CreateStructSlideShow(
+              indicationUpPosition: indicationUpPosition, slides: slides),
         ),
       ),
+    );
+  }
+}
+
+class _CreateStructSlideShow extends StatelessWidget {
+  const _CreateStructSlideShow({
+    required this.indicationUpPosition,
+    required this.slides,
+  });
+
+  final bool indicationUpPosition;
+  final List<Widget> slides;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        if (indicationUpPosition) Dots(slideCount: slides.length),
+        Expanded(
+          child: Slides(slides: slides),
+        ),
+        if (!indicationUpPosition) Dots(slideCount: slides.length),
+      ],
     );
   }
 }
