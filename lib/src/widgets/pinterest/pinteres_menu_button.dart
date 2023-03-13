@@ -50,7 +50,6 @@ class _ItemState extends State<_Item> with SingleTickerProviderStateMixin {
 
     zoom = Tween(begin: 25.0, end: 30.0).animate(animationController);
 
-    animationController.addListener(() {});
     super.initState();
   }
 
@@ -79,7 +78,7 @@ class _ItemState extends State<_Item> with SingleTickerProviderStateMixin {
             widget.item.icon,
             size: (widget.selectedItem == widget.index) ? zoom.value : 25,
             color: (widget.selectedItem == widget.index)
-                ? Colors.redAccent
+                ? Colors.black54
                 : Colors.blueGrey,
           );
         },

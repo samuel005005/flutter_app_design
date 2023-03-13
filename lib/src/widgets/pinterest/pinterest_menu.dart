@@ -6,7 +6,37 @@ import 'package:flutter_app_design/src/widgets/pinterest/pinterest_button.dart';
 import 'package:flutter_app_design/src/widgets/pinterest/pinteret_menu_background.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PinterestMenu extends StatelessWidget {
+class PinterestMenu extends StatefulWidget {
+  final bool show;
+
+  const PinterestMenu({super.key, this.show = true});
+
+  @override
+  State<PinterestMenu> createState() => _PinterestMenuState();
+}
+
+class _PinterestMenuState extends State<PinterestMenu>
+    with SingleTickerProviderStateMixin {
+  late AnimationController animationController;
+  late Animation<double> moveButton;
+  late Animation<double> opacity;
+  late Animation<double> opacityBack;
+  @override
+  void initState() {
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    opacity = Tween(begin: 0.0, end: 1.0).animate(animationController);
+    opacityBack = Tween(begin: 1.0, end: 0.0).animate(animationController);
+    moveButton = Tween(begin: 0.0, end: 25.0).animate(animationController);
+
+    animationController.addListener(() {
+      print(opacityBack.value);
+    });
+    super.initState();
+  }
+
   final List<PinterestButton> items = [
     PinterestButton(
         icon: Icons.pie_chart,
@@ -41,20 +71,29 @@ class PinterestMenu extends StatelessWidget {
     ),
   ];
 
-  final bool show;
-
-  PinterestMenu({super.key, this.show = true});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PinterestBloc(),
-      child: AnimatedOpacity(
-        duration: const Duration(milliseconds: 300),
-        opacity: (show) ? 1 : 0,
-        child: PinteretMenuBackGround(
-          child: MenuItems(menuItems: items),
-        ),
+      child: AnimatedBuilder(
+        animation: animationController,
+        builder: (context, child) {
+          if (widget.show) {
+            animationController.forward();
+          } else {
+            animationController.reverse();
+          }
+
+          return Transform.translate(
+            offset: Offset(0, -moveButton.value),
+            child: Opacity(
+              opacity: opacity.value,
+              child: PinteretMenuBackGround(
+                child: MenuItems(menuItems: items),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

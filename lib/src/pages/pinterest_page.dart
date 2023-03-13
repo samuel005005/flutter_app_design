@@ -40,7 +40,7 @@ class _PinterestMenuLocation extends StatelessWidget {
               if (state is IsShowMenu) {
                 return PinterestMenu(show: state.isShow);
               }
-              return PinterestMenu();
+              return const PinterestMenu();
             },
           ),
         ),
@@ -65,13 +65,15 @@ class _PinterestGridState extends State<PinterestGrid> {
   @override
   void initState() {
     scrollController.addListener(() {
-      if (scrollController.offset > previousScroll) {
-        context.read<PinterestBloc>().add(const ShowMenu(false));
-      } else {
-        context.read<PinterestBloc>().add(const ShowMenu(true));
-      }
+      if (scrollController.offset > 150) {
+        if (scrollController.offset > previousScroll) {
+          context.read<PinterestBloc>().add(const ShowMenu(false));
+        } else {
+          context.read<PinterestBloc>().add(const ShowMenu(true));
+        }
 
-      previousScroll = scrollController.offset;
+        previousScroll = scrollController.offset;
+      }
     });
     super.initState();
   }
