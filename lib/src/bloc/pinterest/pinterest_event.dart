@@ -6,14 +6,6 @@ abstract class PinterestEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ChangeOption extends PinterestEvent {
-  final int selectedItem;
-
-  const ChangeOption({required this.selectedItem});
-  @override
-  List<Object> get props => [selectedItem];
-}
-
 class ShowMenu extends PinterestEvent {
   final bool show;
 

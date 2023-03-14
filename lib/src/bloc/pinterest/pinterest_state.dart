@@ -11,14 +11,6 @@ class PinterestInitial extends PinterestState {
   const PinterestInitial();
 }
 
-class ItemSelected extends PinterestState {
-  final int selectedItem;
-  const ItemSelected(this.selectedItem);
-
-  @override
-  List<Object> get props => [selectedItem];
-}
-
 class IsShowMenu extends PinterestState {
   final bool isShow;
 

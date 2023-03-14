@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_design/src/widgets/pinterest/bloc/pinterest/pinterest_bloc.dart';
+import 'package:flutter_app_design/src/widgets/pinterest/bloc/pinterest_menu/pinterest_menu_bloc.dart';
+
 import 'package:flutter_app_design/src/widgets/pinterest/menu_items.dart';
 import 'package:flutter_app_design/src/widgets/pinterest/pinterest_button.dart';
 import 'package:flutter_app_design/src/widgets/pinterest/pinteret_menu_background.dart';
@@ -8,8 +9,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PinterestMenu extends StatefulWidget {
   final bool show;
+  final Color backgroundColor;
+  final Color activeColor;
+  final Color inactiveColor;
+  final List<PinterestButton> items;
 
-  const PinterestMenu({super.key, this.show = true});
+  const PinterestMenu({
+    super.key,
+    this.show = true,
+    this.backgroundColor = Colors.white,
+    this.activeColor = Colors.black,
+    this.inactiveColor = Colors.blueGrey,
+    required this.items,
+  });
 
   @override
   State<PinterestMenu> createState() => _PinterestMenuState();
@@ -21,6 +33,7 @@ class _PinterestMenuState extends State<PinterestMenu>
   late Animation<double> moveButton;
   late Animation<double> opacity;
   late Animation<double> opacityBack;
+
   @override
   void initState() {
     animationController = AnimationController(
@@ -34,64 +47,11 @@ class _PinterestMenuState extends State<PinterestMenu>
     super.initState();
   }
 
-  final List<PinterestButton> items = [
-    PinterestButton(
-        icon: const Icon(Icons.pie_chart),
-        onPressed: () {
-          if (kDebugMode) {
-            print("Icon pie_chart");
-          }
-        }),
-    PinterestButton(
-      icon: const Icon(Icons.search),
-      onPressed: () {
-        if (kDebugMode) {
-          print("Icon search");
-        }
-      },
-    ),
-    PinterestButton(
-      icon: Stack(children: [
-        const Icon(Icons.notifications),
-        Positioned(
-          top: 0.0,
-          right: -1.0,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 2),
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Text(
-              "14",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 10,
-              ),
-            ),
-          ),
-        ),
-      ]),
-      onPressed: () {
-        if (kDebugMode) {
-          print("Icon notifications");
-        }
-      },
-    ),
-    PinterestButton(
-      icon: const Icon(Icons.supervised_user_circle),
-      onPressed: () {
-        if (kDebugMode) {
-          print("Icon supervised_user_circle");
-        }
-      },
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => PinterestBloc(),
+      create: (_) => PinterestMenuBloc(
+          widget.backgroundColor, widget.activeColor, widget.inactiveColor),
       child: AnimatedBuilder(
         animation: animationController,
         builder: (context, child) {
@@ -106,7 +66,7 @@ class _PinterestMenuState extends State<PinterestMenu>
             child: Opacity(
               opacity: opacity.value,
               child: PinteretMenuBackGround(
-                child: MenuItems(menuItems: items),
+                child: MenuItems(menuItems: widget.items),
               ),
             ),
           );

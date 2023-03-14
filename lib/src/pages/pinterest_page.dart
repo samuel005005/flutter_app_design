@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_app_design/src/widgets/pinterest/pinterest_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:flutter_app_design/src/bloc/pinterest/pinterest_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_app_design/src/widgets/pinterest/pinterest_menu.dart';
-import 'package:flutter_app_design/src/widgets/pinterest/bloc/pinterest/pinterest_bloc.dart';
 
 class PinterestPage extends StatelessWidget {
   const PinterestPage({super.key});
@@ -28,6 +30,59 @@ class _PinterestMenuLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final List<PinterestButton> items = [
+      PinterestButton(
+          icon: const Icon(Icons.pie_chart),
+          onPressed: () {
+            if (kDebugMode) {
+              print("Icon pie_chart");
+            }
+          }),
+      PinterestButton(
+        icon: const Icon(Icons.search),
+        onPressed: () {
+          if (kDebugMode) {
+            print("Icon search");
+          }
+        },
+      ),
+      PinterestButton(
+        icon: Stack(children: [
+          const Icon(Icons.notifications),
+          Positioned(
+            top: 0.0,
+            right: -1.0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Text(
+                "14",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ),
+        ]),
+        onPressed: () {
+          if (kDebugMode) {
+            print("Icon notifications");
+          }
+        },
+      ),
+      PinterestButton(
+        icon: const Icon(Icons.supervised_user_circle),
+        onPressed: () {
+          if (kDebugMode) {
+            print("Icon supervised_user_circle");
+          }
+        },
+      ),
+    ];
 
     return Positioned(
       bottom: 30,
@@ -38,9 +93,14 @@ class _PinterestMenuLocation extends StatelessWidget {
           child: BlocBuilder<PinterestBloc, PinterestState>(
             builder: (context, state) {
               if (state is IsShowMenu) {
-                return PinterestMenu(show: state.isShow);
+                return PinterestMenu(
+                  show: state.isShow,
+                  items: items,
+                );
               }
-              return const PinterestMenu();
+              return PinterestMenu(
+                items: items,
+              );
             },
           ),
         ),
@@ -65,15 +125,14 @@ class _PinterestGridState extends State<PinterestGrid> {
   @override
   void initState() {
     scrollController.addListener(() {
-      if (scrollController.offset > 150) {
-        if (scrollController.offset > previousScroll) {
-          context.read<PinterestBloc>().add(const ShowMenu(false));
-        } else {
-          context.read<PinterestBloc>().add(const ShowMenu(true));
-        }
-
-        previousScroll = scrollController.offset;
+      if (scrollController.offset > previousScroll &&
+          scrollController.offset > 150) {
+        context.read<PinterestBloc>().add(const ShowMenu(false));
+      } else {
+        context.read<PinterestBloc>().add(const ShowMenu(true));
       }
+
+      previousScroll = scrollController.offset;
     });
     super.initState();
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_design/src/widgets/pinterest/bloc/pinterest/pinterest_bloc.dart';
+import 'package:flutter_app_design/src/widgets/pinterest/bloc/pinterest_menu/pinterest_menu_bloc.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'pinterest_button.dart';
@@ -11,7 +12,7 @@ class PinteresMenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PinterestBloc, PinterestState>(
+    return BlocBuilder<PinterestMenuBloc, PinterestMenuState>(
       builder: (context, state) {
         if (state is ItemSelected) {
           return _Item(
@@ -65,7 +66,7 @@ class _ItemState extends State<_Item> with SingleTickerProviderStateMixin {
       behavior: HitTestBehavior.translucent,
       onTap: () async {
         context
-            .read<PinterestBloc>()
+            .read<PinterestMenuBloc>()
             .add(ChangeOption(selectedItem: widget.index));
         widget.item.onPressed();
         animationController.reset();
@@ -74,17 +75,23 @@ class _ItemState extends State<_Item> with SingleTickerProviderStateMixin {
       child: AnimatedBuilder(
         animation: animationController,
         builder: (context, child) {
-          return SizedBox(
-            width: 25,
-            child: IconTheme(
-              data: IconThemeData(
-                color: (widget.selectedItem == widget.index)
-                    ? Colors.black87
-                    : Colors.blueGrey,
-                size: (widget.selectedItem == widget.index) ? zoom.value : 25.0,
-              ),
-              child: widget.item.icon,
-            ),
+          return BlocBuilder<PinterestMenuBloc, PinterestMenuState>(
+            builder: (context, state) {
+              return SizedBox(
+                width: 25,
+                child: IconTheme(
+                  data: IconThemeData(
+                    color: (widget.selectedItem == widget.index)
+                        ? state.activeColor
+                        : state.inactiveColor,
+                    size: (widget.selectedItem == widget.index)
+                        ? zoom.value
+                        : 25.0,
+                  ),
+                  child: widget.item.icon,
+                ),
+              );
+            },
           );
         },
       ),
