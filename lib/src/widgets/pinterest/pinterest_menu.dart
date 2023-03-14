@@ -31,22 +31,19 @@ class _PinterestMenuState extends State<PinterestMenu>
     opacityBack = Tween(begin: 1.0, end: 0.0).animate(animationController);
     moveButton = Tween(begin: 0.0, end: 25.0).animate(animationController);
 
-    animationController.addListener(() {
-      print(opacityBack.value);
-    });
     super.initState();
   }
 
   final List<PinterestButton> items = [
     PinterestButton(
-        icon: Icons.pie_chart,
+        icon: const Icon(Icons.pie_chart),
         onPressed: () {
           if (kDebugMode) {
             print("Icon pie_chart");
           }
         }),
     PinterestButton(
-      icon: Icons.search,
+      icon: const Icon(Icons.search),
       onPressed: () {
         if (kDebugMode) {
           print("Icon search");
@@ -54,7 +51,27 @@ class _PinterestMenuState extends State<PinterestMenu>
       },
     ),
     PinterestButton(
-      icon: Icons.notifications,
+      icon: Stack(children: [
+        const Icon(Icons.notifications),
+        Positioned(
+          top: 0.0,
+          right: -1.0,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: const Text(
+              "14",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+              ),
+            ),
+          ),
+        ),
+      ]),
       onPressed: () {
         if (kDebugMode) {
           print("Icon notifications");
@@ -62,7 +79,7 @@ class _PinterestMenuState extends State<PinterestMenu>
       },
     ),
     PinterestButton(
-      icon: Icons.supervised_user_circle,
+      icon: const Icon(Icons.supervised_user_circle),
       onPressed: () {
         if (kDebugMode) {
           print("Icon supervised_user_circle");

@@ -48,7 +48,7 @@ class _ItemState extends State<_Item> with SingleTickerProviderStateMixin {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 100), vsync: this);
 
-    zoom = Tween(begin: 25.0, end: 30.0).animate(animationController);
+    zoom = Tween(begin: 25.0, end: 28.0).animate(animationController);
 
     super.initState();
   }
@@ -74,12 +74,17 @@ class _ItemState extends State<_Item> with SingleTickerProviderStateMixin {
       child: AnimatedBuilder(
         animation: animationController,
         builder: (context, child) {
-          return Icon(
-            widget.item.icon,
-            size: (widget.selectedItem == widget.index) ? zoom.value : 25,
-            color: (widget.selectedItem == widget.index)
-                ? Colors.black54
-                : Colors.blueGrey,
+          return SizedBox(
+            width: 25,
+            child: IconTheme(
+              data: IconThemeData(
+                color: (widget.selectedItem == widget.index)
+                    ? Colors.black87
+                    : Colors.blueGrey,
+                size: (widget.selectedItem == widget.index) ? zoom.value : 25.0,
+              ),
+              child: widget.item.icon,
+            ),
           );
         },
       ),
