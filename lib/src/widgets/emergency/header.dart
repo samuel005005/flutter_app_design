@@ -2,38 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HeaderEmergency extends StatelessWidget {
-  const HeaderEmergency({super.key});
+  final IconData icon;
+  final String title, subtitle;
+  final Color color1;
+  final Color color2;
+
+  const HeaderEmergency({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    this.color1 = const Color(0xff526BF6),
+    this.color2 = const Color(0xff67ACF2),
+  });
 
   @override
   Widget build(BuildContext context) {
     final whiteColor = Colors.white.withOpacity(.7);
     return Stack(
       children: [
-        const _HeaderBackground(),
+        _HeaderBackground(color1, color2),
         Positioned(
-          top: -50,
+          top: -60,
           left: -70,
-          child: FaIcon(
-            FontAwesomeIcons.plus,
+          child: Icon(
+            icon,
             size: 250,
             color: Colors.white.withOpacity(0.2),
           ),
         ),
         Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 80),
-            Text(
-              "Haz solicitado",
-              style: TextStyle(fontSize: 20, color: whiteColor),
-            ),
-            Text(
-              "Asistencia Medica",
-              style: TextStyle(
-                  fontSize: 25, fontWeight: FontWeight.bold, color: whiteColor),
-            ),
-            const SizedBox(height: 80),
-            const FaIcon(FontAwesomeIcons.plus, size: 80, color: Colors.white),
+            const SizedBox(height: 80, width: double.infinity),
+            Text(subtitle, style: TextStyle(fontSize: 20, color: whiteColor)),
+            Text(title,
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: whiteColor)),
+            const SizedBox(height: 30),
+            FaIcon(icon, size: 80, color: Colors.white),
           ],
         ),
       ],
@@ -42,23 +50,25 @@ class HeaderEmergency extends StatelessWidget {
 }
 
 class _HeaderBackground extends StatelessWidget {
-  const _HeaderBackground();
+  final Color color1;
+  final Color color2;
+  const _HeaderBackground(this.color1, this.color2);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 300,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
+      height: 250,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(80),
         ),
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0xff526BF6),
-            Color(0xff67ACF2),
+            color1,
+            color2,
           ],
         ),
       ),
