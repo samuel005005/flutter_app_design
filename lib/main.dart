@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_design/src/pages/emergency_page.dart';
+import 'package:flutter_app_design/src/pages/sliver_list_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -8,10 +8,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Diseños App',
-      home: EmergencyPage(),
+      home: SliverListPage(),
     );
   }
 }
