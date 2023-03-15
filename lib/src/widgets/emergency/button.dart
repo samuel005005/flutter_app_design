@@ -22,7 +22,7 @@ class Button extends StatelessWidget {
       onTap: onPress,
       child: Stack(
         children: [
-          _ButtonBackground(color1, color2),
+          _ButtonBackground(color1, color2, icon),
           Row(
             children: [
               const SizedBox(height: 140, width: 40),
@@ -45,7 +45,8 @@ class Button extends StatelessWidget {
 class _ButtonBackground extends StatelessWidget {
   final Color color1;
   final Color color2;
-  const _ButtonBackground(this.color1, this.color2);
+  final IconData icon;
+  const _ButtonBackground(this.color1, this.color2, this.icon);
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +77,7 @@ class _ButtonBackground extends StatelessWidget {
               top: -25,
               right: 6,
               child: Icon(
-                FontAwesomeIcons.carBurst,
+                icon,
                 size: 150,
                 color: Colors.white.withOpacity(.2),
               ),
