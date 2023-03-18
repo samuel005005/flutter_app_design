@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_design/src/bloc/theme/theme_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../widgets/slideshow/slideshow.dart';
@@ -27,19 +29,24 @@ class MySlideShow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SlideShow(
-      indicationUpPosition: false,
-      primaryColor: Colors.deepPurple,
-      secundaryColor: Colors.red,
-      primaryBullet: 15,
-      secundaryBullet: 12,
-      slides: <Widget>[
-        SvgPicture.asset('assets/svgs/slide-1.svg'),
-        SvgPicture.asset('assets/svgs/slide-2.svg'),
-        SvgPicture.asset('assets/svgs/slide-3.svg'),
-        SvgPicture.asset('assets/svgs/slide-4.svg'),
-        SvgPicture.asset('assets/svgs/slide-5.svg'),
-      ],
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        final secondary = state.currentTheme.colorScheme.secondary;
+        return SlideShow(
+          indicationUpPosition: false,
+          primaryColor: secondary,
+          // secundaryColor: secondary,
+          primaryBullet: 15,
+          secundaryBullet: 12,
+          slides: <Widget>[
+            SvgPicture.asset('assets/svgs/slide-1.svg'),
+            SvgPicture.asset('assets/svgs/slide-2.svg'),
+            SvgPicture.asset('assets/svgs/slide-3.svg'),
+            SvgPicture.asset('assets/svgs/slide-4.svg'),
+            SvgPicture.asset('assets/svgs/slide-5.svg'),
+          ],
+        );
+      },
     );
   }
 }

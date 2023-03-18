@@ -25,29 +25,34 @@ class _ListOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      physics: const BouncingScrollPhysics(),
-      separatorBuilder: (context, index) => const Divider(
-        color: Colors.blue,
-      ),
-      itemCount: pageRoutes.length,
-      itemBuilder: (context, index) => ListTile(
-        leading: FaIcon(
-          pageRoutes[index].icon,
-          color: Colors.blue,
-        ),
-        title: Text(pageRoutes[index].title),
-        trailing: const Icon(
-          Icons.chevron_right,
-          color: Colors.blue,
-        ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => pageRoutes[index].page),
-          );
-        },
-      ),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        final appTheme = state.currentTheme;
+        return ListView.separated(
+          physics: const BouncingScrollPhysics(),
+          separatorBuilder: (context, index) => Divider(
+            color: appTheme.primaryColorLight,
+          ),
+          itemCount: pageRoutes.length,
+          itemBuilder: (context, index) => ListTile(
+            leading: FaIcon(
+              pageRoutes[index].icon,
+              color: appTheme.colorScheme.secondary,
+            ),
+            title: Text(pageRoutes[index].title),
+            trailing: Icon(
+              Icons.chevron_right,
+              color: appTheme.colorScheme.secondary,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => pageRoutes[index].page),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
@@ -58,71 +63,72 @@ class _MainMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
-        children: [
-          const SafeArea(
-            child: SizedBox(
-              width: double.infinity,
-              height: 150,
-              child: CircleAvatar(
-                backgroundColor: Colors.blue,
-                child: Text(
-                  "SP",
-                  style: TextStyle(fontSize: 50, color: Colors.white),
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          final secondary = state.currentTheme.colorScheme.secondary;
+          return Column(
+            children: [
+              SafeArea(
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 150,
+                  child: CircleAvatar(
+                    backgroundColor: secondary,
+                    child: const Text(
+                      "SP",
+                      style: TextStyle(fontSize: 50, color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          const Expanded(
-            child: _ListOptions(),
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.lightbulb_outline,
-              color: Colors.blue,
-            ),
-            title: const Text('Dark Mode'),
-            trailing: BlocBuilder<ThemeBloc, ThemeState>(
-              builder: (context, state) {
-                return Switch.adaptive(
+              const Expanded(
+                child: _ListOptions(),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.lightbulb_outline,
+                  color: secondary,
+                ),
+                title: const Text('Dark Mode'),
+                trailing: Switch.adaptive(
                   value: state.darkTheme,
-                  activeColor: Colors.blue,
+                  activeColor: secondary,
                   onChanged: (value) {
                     context.read<ThemeBloc>().add(
                           ChangeTheme(darkTheme: value, customTheme: !value),
                         );
                   },
-                );
-              },
-            ),
-          ),
-          SafeArea(
-            bottom: true,
-            top: false,
-            left: false,
-            right: false,
-            child: ListTile(
-              leading: const Icon(
-                Icons.add_to_home_screen,
-                color: Colors.blue,
+                ),
               ),
-              title: const Text('Custom Theme'),
-              trailing: BlocBuilder<ThemeBloc, ThemeState>(
-                builder: (context, state) {
-                  return Switch.adaptive(
-                    value: state.customTheme,
-                    activeColor: Colors.blue,
-                    onChanged: (value) {
-                      context.read<ThemeBloc>().add(
-                            ChangeTheme(darkTheme: !value, customTheme: value),
-                          );
+              SafeArea(
+                  bottom: true,
+                  top: false,
+                  left: false,
+                  right: false,
+                  child: BlocBuilder<ThemeBloc, ThemeState>(
+                    builder: (context, state) {
+                      return ListTile(
+                        leading: Icon(
+                          Icons.add_to_home_screen,
+                          color: secondary,
+                        ),
+                        title: const Text('Custom Theme'),
+                        trailing: Switch.adaptive(
+                          value: state.customTheme,
+                          activeColor: secondary,
+                          onChanged: (value) {
+                            context.read<ThemeBloc>().add(
+                                  ChangeTheme(
+                                      darkTheme: !value, customTheme: value),
+                                );
+                          },
+                        ),
+                      );
                     },
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
+                  )),
+            ],
+          );
+        },
       ),
     );
   }

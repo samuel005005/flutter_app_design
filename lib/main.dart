@@ -6,7 +6,7 @@ import 'package:flutter_app_design/src/pages/launcher_page.dart';
 
 void main() => runApp(
       BlocProvider(
-        create: (context) => ThemeBloc(),
+        create: (context) => ThemeBloc(2),
         child: const MyApp(),
       ),
     );
