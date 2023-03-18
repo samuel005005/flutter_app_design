@@ -13,6 +13,7 @@ class PinterestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("Pinterest Page")),
       body: BlocProvider(
         create: (context) => PinterestBloc(),
         child: Stack(

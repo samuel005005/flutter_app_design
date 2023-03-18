@@ -7,8 +7,11 @@ class AnimationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Animation Page"),
+      ),
+      body: const Center(
         child: SquareAnimaded(),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SliverListPage extends StatelessWidget {
   const SliverListPage({super.key});
@@ -65,6 +66,7 @@ class _MainScroll extends StatelessWidget {
     const _ItemSilver('Family', Color(0xffF2A38A)),
     const _ItemSilver('Subscriptions', Color(0xffF7CDD5)),
     const _ItemSilver('Books', Color(0xffFCEBAF)),
+    const SizedBox(height: 100)
   ];
 
   _MainScroll();
@@ -90,13 +92,33 @@ class _MainScroll extends StatelessWidget {
             child: Container(
               alignment: Alignment.centerLeft,
               color: Colors.white,
-              child: const _Title(),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 30,
+                    left: 0,
+                    child: RawMaterialButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      shape: const CircleBorder(),
+                      child: const Icon(
+                        FontAwesomeIcons.arrowLeft,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 35),
+                    child: _Title(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
         SliverList(
-          delegate:
-              SliverChildListDelegate([...items, const SizedBox(height: 100)]),
+          delegate: SliverChildListDelegate([...items]),
         ),
       ],
     );
@@ -139,12 +161,12 @@ class _Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 30),
+        const SizedBox(height: 20),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: const Text(
             "New",
-            style: TextStyle(color: Color(0xff532128), fontSize: 50),
+            style: TextStyle(color: Color(0xff532128), fontSize: 40),
           ),
         ),
         Stack(
@@ -163,7 +185,7 @@ class _Title extends StatelessWidget {
               "List",
               style: TextStyle(
                   color: Color(0xffD93A30),
-                  fontSize: 50,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold),
             ),
           ],
@@ -173,30 +195,31 @@ class _Title extends StatelessWidget {
   }
 }
 
-class _TaskList extends StatelessWidget {
-  final items = [
-    const _ItemSilver('Orange', Color(0xffF08F66)),
-    const _ItemSilver('Family', Color(0xffF2A38A)),
-    const _ItemSilver('Subscriptions', Color(0xffF7CDD5)),
-    const _ItemSilver('Books', Color(0xffFCEBAF)),
-    const _ItemSilver('Orange', Color(0xffF08F66)),
-    const _ItemSilver('Family', Color(0xffF2A38A)),
-    const _ItemSilver('Subscriptions', Color(0xffF7CDD5)),
-    const _ItemSilver('Books', Color(0xffFCEBAF)),
-  ];
-  _TaskList();
+// class _TaskList extends StatelessWidget {
+//   final items = [
+//     const _ItemSilver('Orange', Color(0xffF08F66)),
+//     const _ItemSilver('Family', Color(0xffF2A38A)),
+//     const _ItemSilver('Subscriptions', Color(0xffF7CDD5)),
+//     const _ItemSilver('Books', Color(0xffFCEBAF)),
+//     const _ItemSilver('Orange', Color(0xffF08F66)),
+//     const _ItemSilver('Family', Color(0xffF2A38A)),
+//     const _ItemSilver('Subscriptions', Color(0xffF7CDD5)),
+//     const _ItemSilver('Books', Color(0xffFCEBAF)),
+//     const SizedBox(height: 100)
+//   ];
+//   _TaskList();
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      itemCount: 8,
-      itemBuilder: (context, index) {
-        return items[index];
-      },
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.builder(
+//       physics: const BouncingScrollPhysics(),
+//       itemCount: items.length,
+//       itemBuilder: (context, index) {
+//         return items[index];
+//       },
+//     );
+//   }
+// }
 
 class _ItemSilver extends StatelessWidget {
   final String title;

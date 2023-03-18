@@ -14,6 +14,9 @@ class _CircularGraphPageState extends State<CircularGraphPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Circular Graph Page"),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {

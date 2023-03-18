@@ -9,6 +9,9 @@ class SlideShowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("SlideShow Page"),
+      ),
       body: Column(
         children: const [
           Expanded(child: MySlideShow()),

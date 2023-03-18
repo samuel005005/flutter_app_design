@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SquareHeader extends StatelessWidget {
   const SquareHeader({super.key});
@@ -205,6 +206,23 @@ class HeaderWave extends StatelessWidget {
       width: double.infinity,
       child: CustomPaint(
         painter: _HeaderWavePainter(),
+        child: Stack(children: [
+          Positioned(
+            top: 30,
+            left: 0,
+            child: RawMaterialButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(15.0),
+              child: const Icon(
+                FontAwesomeIcons.arrowLeft,
+                color: Colors.white,
+              ),
+            ),
+          )
+        ]),
       ),
     );
   }

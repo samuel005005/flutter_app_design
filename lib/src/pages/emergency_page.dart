@@ -91,6 +91,21 @@ class EmergencyPage extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
+            ),
+            Positioned(
+              top: 30,
+              left: 0,
+              child: RawMaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(15.0),
+                child: const Icon(
+                  FontAwesomeIcons.arrowLeft,
+                  color: Colors.white,
+                ),
+              ),
             )
           ],
         ),
