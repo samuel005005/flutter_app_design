@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_design/src/bloc/theme/theme_bloc.dart';
 import 'package:flutter_app_design/src/widgets/radial_progress.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CircularGraphPage extends StatefulWidget {
   const CircularGraphPage({super.key});
@@ -39,7 +41,7 @@ class _CircularGraphPageState extends State<CircularGraphPage> {
                 color: Colors.red,
               ),
               CustomRadialProgress(
-                percentage: percentage,
+                percentage: percentage * 1.8,
                 color: Colors.green,
               ),
             ],
@@ -48,11 +50,11 @@ class _CircularGraphPageState extends State<CircularGraphPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               CustomRadialProgress(
-                percentage: percentage,
+                percentage: percentage * 1.2,
                 color: Colors.purple,
               ),
               CustomRadialProgress(
-                percentage: percentage,
+                percentage: percentage * 1.6,
                 color: Colors.blue,
               ),
             ],
@@ -72,15 +74,20 @@ class CustomRadialProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 180,
-      height: 180,
-      child: RadialProgress(
-        percentage: percentage,
-        primaryColor: color,
-        primaryThickness: 10,
-        secondaryThickness: 5,
-      ),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return SizedBox(
+          width: 180,
+          height: 180,
+          child: RadialProgress(
+            percentage: percentage,
+            primaryColor: color,
+            secondaryColor: state.currentTheme.textTheme.bodyLarge!.color!,
+            primaryThickness: 10,
+            secondaryThickness: 3,
+          ),
+        );
+      },
     );
   }
 }

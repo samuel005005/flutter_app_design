@@ -21,7 +21,14 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     }
 
     if (event.customTheme) {
-      currentTheme = ThemeData.light();
+      currentTheme = ThemeData.dark().copyWith(
+          colorScheme: const ColorScheme.dark().copyWith(
+            secondary: const Color(0xff48A0EB),
+          ),
+          primaryColorLight: Colors.white,
+          scaffoldBackgroundColor: const Color(0xff16202B),
+          textTheme:
+              const TextTheme(bodyLarge: TextStyle(color: Colors.white)));
     }
 
     emit(ThemeChanged(

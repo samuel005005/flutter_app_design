@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_design/src/bloc/theme/theme_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SliverListPage extends StatelessWidget {
@@ -30,27 +32,33 @@ class _ButtonNewList extends StatelessWidget {
     return SizedBox(
       width: size.width * .9,
       height: 100,
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(50),
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          return ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                ),
+              ),
+              backgroundColor: state.darkTheme
+                  ? state.currentTheme.colorScheme.secondary
+                  : const Color(
+                      0xffED6762,
+                    ),
             ),
-          ),
-          backgroundColor: const Color(
-            0xffED6762,
-          ),
-        ),
-        child: const Text(
-          "CREATE NEW LIST",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 3,
-          ),
-        ),
+            child: Text(
+              "CREATE NEW LIST",
+              style: TextStyle(
+                color: state.currentTheme.scaffoldBackgroundColor,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 3,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -89,31 +97,35 @@ class _MainScroll extends StatelessWidget {
           delegate: _SliverCustomHeaderDelegate(
             maxHeight: 220,
             minHeight: 200,
-            child: Container(
-              alignment: Alignment.centerLeft,
-              color: Colors.white,
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 30,
-                    left: 0,
-                    child: RawMaterialButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      shape: const CircleBorder(),
-                      child: const Icon(
-                        FontAwesomeIcons.arrowLeft,
-                        color: Colors.red,
+            child: BlocBuilder<ThemeBloc, ThemeState>(
+              builder: (context, state) {
+                return Container(
+                  alignment: Alignment.centerLeft,
+                  color: state.currentTheme.scaffoldBackgroundColor,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 30,
+                        left: -25,
+                        child: RawMaterialButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          shape: const CircleBorder(),
+                          child: const Icon(
+                            FontAwesomeIcons.arrowLeft,
+                            color: Colors.red,
+                          ),
+                        ),
                       ),
-                    ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 35),
+                        child: _Title(),
+                      ),
+                    ],
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 35),
-                    child: _Title(),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         ),
@@ -159,38 +171,47 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: const Text(
-            "New",
-            style: TextStyle(color: Color(0xff532128), fontSize: 40),
-          ),
-        ),
-        Stack(
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return Column(
           children: [
-            const SizedBox(width: 100),
-            Positioned(
-              bottom: 8,
-              left: -25,
-              child: Container(
-                width: 160,
-                height: 8,
-                color: const Color(0xffF7CDD5),
+            const SizedBox(height: 20),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: Text(
+                "New",
+                style: TextStyle(
+                  color:
+                      state.darkTheme ? Colors.grey : const Color(0xff532128),
+                  fontSize: 40,
+                ),
               ),
             ),
-            const Text(
-              "List",
-              style: TextStyle(
-                  color: Color(0xffD93A30),
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold),
-            ),
+            Stack(
+              children: [
+                const SizedBox(width: 60),
+                Positioned(
+                  bottom: 8,
+                  left: -25,
+                  child: Container(
+                    width: 160,
+                    height: 4,
+                    color:
+                        state.darkTheme ? Colors.grey : const Color(0xffF7CDD5),
+                  ),
+                ),
+                const Text(
+                  "List",
+                  style: TextStyle(
+                      color: Color(0xffD93A30),
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            )
           ],
-        )
-      ],
+        );
+      },
     );
   }
 }
@@ -228,20 +249,27 @@ class _ItemSilver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.all(30),
-      height: 130,
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Text(
-        title,
-        style: const TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-      ),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(30),
+          height: 130,
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: state.darkTheme ? Colors.grey : color,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        );
+      },
     );
   }
 }

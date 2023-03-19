@@ -34,7 +34,7 @@ class MySlideShow extends StatelessWidget {
         final secondary = state.currentTheme.colorScheme.secondary;
         return SlideShow(
           indicationUpPosition: false,
-          primaryColor: secondary,
+          primaryColor: state.darkTheme ? secondary : const Color(0xffFF5A7E),
           // secundaryColor: secondary,
           primaryBullet: 15,
           secundaryBullet: 12,

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_design/src/bloc/theme/theme_bloc.dart';
 import 'package:flutter_app_design/src/widgets/pinterest/pinterest_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,6 +32,7 @@ class _PinterestMenuLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+
     final List<PinterestButton> items = [
       PinterestButton(
           icon: const Icon(Icons.pie_chart),
@@ -91,16 +93,27 @@ class _PinterestMenuLocation extends StatelessWidget {
         width: screenWidth,
         child: Align(
           alignment: Alignment.center,
-          child: BlocBuilder<PinterestBloc, PinterestState>(
-            builder: (context, state) {
-              if (state is IsShowMenu) {
-                return PinterestMenu(
-                  show: state.isShow,
-                  items: items,
-                );
-              }
-              return PinterestMenu(
-                items: items,
+          child: BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, stateTheme) {
+              return BlocBuilder<PinterestBloc, PinterestState>(
+                builder: (context, state) {
+                  if (state is IsShowMenu) {
+                    return PinterestMenu(
+                      show: state.isShow,
+                      items: items,
+                      backgroundColor:
+                          stateTheme.currentTheme.scaffoldBackgroundColor,
+                      activeColor:
+                          stateTheme.currentTheme.colorScheme.secondary,
+                    );
+                  }
+                  return PinterestMenu(
+                    items: items,
+                    backgroundColor:
+                        stateTheme.currentTheme.scaffoldBackgroundColor,
+                    activeColor: stateTheme.currentTheme.colorScheme.secondary,
+                  );
+                },
               );
             },
           ),
@@ -168,18 +181,24 @@ class _PinteresItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        color: Colors.blue,
-      ),
-      child: Center(
-        child: CircleAvatar(
-          backgroundColor: Colors.white,
-          child: Text('$index'),
-        ),
-      ),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return Container(
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: state.darkTheme
+                ? state.currentTheme.colorScheme.secondary
+                : state.currentTheme.primaryColor,
+          ),
+          child: Center(
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Text('$index'),
+            ),
+          ),
+        );
+      },
     );
   }
 }

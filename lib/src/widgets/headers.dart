@@ -197,7 +197,10 @@ class _HeaderCurvoPainter extends CustomPainter {
 }
 
 class HeaderWave extends StatelessWidget {
-  const HeaderWave({super.key});
+  final Color color;
+  final Color secondaryColor;
+  const HeaderWave(
+      {super.key, required this.color, this.secondaryColor = Colors.white});
 
   @override
   Widget build(BuildContext context) {
@@ -205,36 +208,43 @@ class HeaderWave extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       child: CustomPaint(
-        painter: _HeaderWavePainter(),
-        child: Stack(children: [
-          Positioned(
-            top: 30,
-            left: 0,
-            child: RawMaterialButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.all(15.0),
-              child: const Icon(
-                FontAwesomeIcons.arrowLeft,
-                color: Colors.white,
+        painter: _HeaderWavePainter(color),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 30,
+              left: -25,
+              child: RawMaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(15.0),
+                child: Icon(
+                  FontAwesomeIcons.arrowLeft,
+                  color: secondaryColor,
+                ),
               ),
-            ),
-          )
-        ]),
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
 class _HeaderWavePainter extends CustomPainter {
+  final Color color;
+
+  _HeaderWavePainter(this.color);
+
   @override
   void paint(Canvas canvas, Size size) {
     final lapiz = Paint();
 
     // Propiedades
-    lapiz.color = const Color(0xff615AAB);
+    // lapiz.color = const Color(0xff615AAB);
+    lapiz.color = color;
     lapiz.style = PaintingStyle.fill; // .fill .stroke
     lapiz.strokeWidth = 20;
 

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:math';
 
+import 'package:flutter_app_design/src/bloc/theme/theme_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 class AnimationPage extends StatelessWidget {
   const AnimationPage({super.key});
 
@@ -131,10 +134,15 @@ class _Rectangle extends StatelessWidget {
   const _Rectangle();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 70,
-      height: 70,
-      decoration: const BoxDecoration(color: Colors.red),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return Container(
+          width: 70,
+          height: 70,
+          decoration:
+              BoxDecoration(color: state.currentTheme.colorScheme.secondary),
+        );
+      },
     );
   }
 }

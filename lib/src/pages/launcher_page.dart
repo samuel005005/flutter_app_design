@@ -95,7 +95,7 @@ class _MainMenu extends StatelessWidget {
                   activeColor: secondary,
                   onChanged: (value) {
                     context.read<ThemeBloc>().add(
-                          ChangeTheme(darkTheme: value, customTheme: !value),
+                          ChangeTheme(darkTheme: value, customTheme: false),
                         );
                   },
                 ),
@@ -119,7 +119,7 @@ class _MainMenu extends StatelessWidget {
                           onChanged: (value) {
                             context.read<ThemeBloc>().add(
                                   ChangeTheme(
-                                      darkTheme: !value, customTheme: value),
+                                      darkTheme: false, customTheme: value),
                                 );
                           },
                         ),

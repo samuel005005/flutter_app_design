@@ -94,7 +94,7 @@ class EmergencyPage extends StatelessWidget {
             ),
             Positioned(
               top: 30,
-              left: 0,
+              left: -25,
               child: RawMaterialButton(
                 onPressed: () {
                   Navigator.pop(context);
