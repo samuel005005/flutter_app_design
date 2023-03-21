@@ -22,7 +22,11 @@ class MyApp extends StatelessWidget {
           theme: state.currentTheme,
           debugShowCheckedModeBanner: false,
           title: 'Diseños App',
-          home: const LauncherPage(),
+          home: OrientationBuilder(
+            builder: (context, orientation) {
+              return const LauncherPage();
+            },
+          ),
         );
       },
     );

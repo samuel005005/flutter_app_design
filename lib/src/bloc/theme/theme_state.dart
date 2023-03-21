@@ -26,22 +26,22 @@ class ThemeInitial extends ThemeState {
       case 1:
         darkTheme = false;
         customTheme = false;
-        currentTheme = ThemeData.light();
+        currentTheme = CustomTheme.lightTheme;
         break;
       case 2:
         darkTheme = true;
         customTheme = false;
-        currentTheme = ThemeData.dark();
+        currentTheme = CustomTheme.darkTheme;
         break;
       case 3:
         darkTheme = false;
         customTheme = true;
-        currentTheme = ThemeData.light();
+        currentTheme = CustomTheme.customTheme;
         break;
       default:
         darkTheme = false;
         customTheme = false;
-        currentTheme = ThemeData.light();
+        currentTheme = CustomTheme.lightTheme;
     }
   }
 

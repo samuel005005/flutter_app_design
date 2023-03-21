@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
+import 'theme.dart';
+
 part 'theme_event.dart';
 part 'theme_state.dart';
 
@@ -15,20 +17,13 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     late ThemeData currentTheme;
 
     if (event.darkTheme) {
-      currentTheme = ThemeData.dark();
+      currentTheme = CustomTheme.darkTheme;
     } else {
-      currentTheme = ThemeData.light();
+      currentTheme = CustomTheme.lightTheme;
     }
 
     if (event.customTheme) {
-      currentTheme = ThemeData.dark().copyWith(
-          colorScheme: const ColorScheme.dark().copyWith(
-            secondary: const Color(0xff48A0EB),
-          ),
-          primaryColorLight: Colors.white,
-          scaffoldBackgroundColor: const Color(0xff16202B),
-          textTheme:
-              const TextTheme(bodyLarge: TextStyle(color: Colors.white)));
+      currentTheme = CustomTheme.customTheme;
     }
 
     emit(ThemeChanged(

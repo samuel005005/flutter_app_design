@@ -5,8 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter_app_design/src/routes/routes.dart';
 
-class LauncherPage extends StatelessWidget {
-  const LauncherPage({super.key});
+class LauncherTabletPage extends StatelessWidget {
+  const LauncherTabletPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class LauncherPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: state.currentTheme.colorScheme.secondary,
-            title: const Text('Design with Flutter'),
+            title: const Text('Design with Flutter - Tablet'),
           ),
           body: const _ListOptions(),
           drawer: const _MainMenu(),

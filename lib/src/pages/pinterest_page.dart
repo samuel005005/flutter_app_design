@@ -187,9 +187,7 @@ class _PinteresItem extends StatelessWidget {
           margin: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: state.darkTheme
-                ? state.currentTheme.colorScheme.secondary
-                : state.currentTheme.primaryColor,
+            color: state.currentTheme.colorScheme.secondary,
           ),
           child: Center(
             child: CircleAvatar(
