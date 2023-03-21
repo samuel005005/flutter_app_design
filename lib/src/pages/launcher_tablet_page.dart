@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_design/src/bloc/layout/layout_bloc.dart';
 import 'package:flutter_app_design/src/bloc/theme/theme_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,17 +11,34 @@ class LauncherTabletPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: state.currentTheme.colorScheme.secondary,
-            title: const Text('Design with Flutter - Tablet'),
+    final stateTheme = context.watch<ThemeBloc>().state;
+    final stateLayout = context.watch<LayoutBloc>().state;
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: stateTheme.currentTheme.colorScheme.secondary,
+        title: const Text('Design with Flutter - Tablet'),
+      ),
+      drawer: const _MainMenu(),
+      body: Row(
+        children: <Widget>[
+          const SizedBox(
+            width: 300,
+            height: double.infinity,
+            child: _ListOptions(),
           ),
-          body: const _ListOptions(),
-          drawer: const _MainMenu(),
-        );
-      },
+          Container(
+            width: 1,
+            height: double.infinity,
+            color: stateTheme.darkTheme
+                ? Colors.grey
+                : stateTheme.currentTheme.colorScheme.secondary,
+          ),
+          Expanded(
+            child: stateLayout.currentPage,
+          )
+        ],
+      ),
     );
   }
 }
@@ -50,10 +68,9 @@ class _ListOptions extends StatelessWidget {
               color: appTheme.colorScheme.secondary,
             ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => pageRoutes[index].page),
-              );
+              context
+                  .read<LayoutBloc>()
+                  .add(ChangePage(currentPage: pageRoutes[index].page));
             },
           ),
         );

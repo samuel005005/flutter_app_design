@@ -45,6 +45,8 @@ class EmergencyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isLarge = (MediaQuery.of(context).size.height > 550) ? true : false;
+
     List<Widget> itemMap = items
         .map(
           (item) => FadeInLeft(
@@ -60,56 +62,53 @@ class EmergencyPage extends StatelessWidget {
         .toList();
 
     return Scaffold(
-        body: Stack(
+      body: Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: (isLarge) ? 220 : 10),
+            child: SafeArea(
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  if (isLarge) const SizedBox(height: 40),
+                  ...itemMap,
+                ],
+              ),
+            ),
+          ),
+          if (isLarge) const _Headering()
+        ],
+      ),
+    );
+  }
+}
+
+class _Headering extends StatelessWidget {
+  const _Headering();
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
       children: [
-        Container(
-          margin: const EdgeInsets.only(top: 200),
-          child: ListView(
-            physics: const BouncingScrollPhysics(),
-            children: [
-              const SizedBox(height: 40),
-              ...itemMap,
-            ],
+        const HeaderEmergency(
+          icon: FontAwesomeIcons.plus,
+          title: "Asistencia Medica",
+          subtitle: "Haz solicitado",
+        ),
+        Positioned(
+          top: 30,
+          right: 0,
+          child: RawMaterialButton(
+            onPressed: () {},
+            shape: const CircleBorder(),
+            padding: const EdgeInsets.all(15.0),
+            child: const Icon(
+              FontAwesomeIcons.ellipsisVertical,
+              color: Colors.white,
+            ),
           ),
         ),
-        Stack(
-          children: [
-            const HeaderEmergency(
-              icon: FontAwesomeIcons.plus,
-              title: "Asistencia Medica",
-              subtitle: "Haz solicitado",
-            ),
-            Positioned(
-              top: 30,
-              right: 0,
-              child: RawMaterialButton(
-                onPressed: () {},
-                shape: const CircleBorder(),
-                padding: const EdgeInsets.all(15.0),
-                child: const Icon(
-                  FontAwesomeIcons.ellipsisVertical,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 30,
-              left: -25,
-              child: RawMaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                shape: const CircleBorder(),
-                padding: const EdgeInsets.all(15.0),
-                child: const Icon(
-                  FontAwesomeIcons.arrowLeft,
-                  color: Colors.white,
-                ),
-              ),
-            )
-          ],
-        ),
       ],
-    ));
+    );
   }
 }

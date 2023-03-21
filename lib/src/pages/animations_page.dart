@@ -10,11 +10,8 @@ class AnimationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Animation Page"),
-      ),
-      body: const Center(
+    return const Scaffold(
+      body: Center(
         child: SquareAnimaded(),
       ),
     );
@@ -134,15 +131,11 @@ class _Rectangle extends StatelessWidget {
   const _Rectangle();
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) {
-        return Container(
-          width: 70,
-          height: 70,
-          decoration:
-              BoxDecoration(color: state.currentTheme.colorScheme.secondary),
-        );
-      },
+    final appTheme = context.watch<ThemeBloc>().state.currentTheme;
+    return Container(
+      width: 70,
+      height: 70,
+      decoration: BoxDecoration(color: appTheme.colorScheme.secondary),
     );
   }
 }

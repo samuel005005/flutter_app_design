@@ -16,9 +16,6 @@ class _CircularGraphPageState extends State<CircularGraphPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Circular Graph Page"),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
@@ -74,20 +71,17 @@ class CustomRadialProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) {
-        return SizedBox(
-          width: 180,
-          height: 180,
-          child: RadialProgress(
-            percentage: percentage,
-            primaryColor: color,
-            secondaryColor: state.currentTheme.textTheme.bodyLarge!.color!,
-            primaryThickness: 10,
-            secondaryThickness: 3,
-          ),
-        );
-      },
+    final appTheme = context.watch<ThemeBloc>().state.currentTheme;
+    return SizedBox(
+      width: 180,
+      height: 180,
+      child: RadialProgress(
+        percentage: percentage,
+        primaryColor: color,
+        secondaryColor: appTheme.textTheme.bodyLarge!.color!,
+        primaryThickness: 10,
+        secondaryThickness: 3,
+      ),
     );
   }
 }

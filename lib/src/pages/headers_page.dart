@@ -9,14 +9,11 @@ class HeadersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = context.watch<ThemeBloc>().state;
     return Scaffold(
-      body: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
-          return HeaderWave(
-            color: state.currentTheme.colorScheme.secondary,
-            secondaryColor: state.darkTheme ? Colors.black : Colors.white,
-          );
-        },
+      body: HeaderWave(
+        color: appTheme.currentTheme.colorScheme.secondary,
+        secondaryColor: appTheme.darkTheme ? Colors.black : Colors.white,
       ),
     );
   }

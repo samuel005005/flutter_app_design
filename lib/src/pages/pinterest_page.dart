@@ -14,7 +14,6 @@ class PinterestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Pinterest Page")),
       body: BlocProvider(
         create: (context) => PinterestBloc(),
         child: Stack(
@@ -31,8 +30,6 @@ class PinterestPage extends StatelessWidget {
 class _PinterestMenuLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
     final List<PinterestButton> items = [
       PinterestButton(
           icon: const Icon(Icons.pie_chart),
@@ -87,33 +84,32 @@ class _PinterestMenuLocation extends StatelessWidget {
       ),
     ];
 
+    final appTheme = context.watch<ThemeBloc>().state.currentTheme;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    /** restando los 300 pixeles del menu en pantallas grandes */
+    screenWidth = (screenWidth) > 500 ? screenWidth - 300 : screenWidth;
+
     return Positioned(
       bottom: 30,
       child: SizedBox(
         width: screenWidth,
         child: Align(
           alignment: Alignment.center,
-          child: BlocBuilder<ThemeBloc, ThemeState>(
-            builder: (context, stateTheme) {
-              return BlocBuilder<PinterestBloc, PinterestState>(
-                builder: (context, state) {
-                  if (state is IsShowMenu) {
-                    return PinterestMenu(
-                      show: state.isShow,
-                      items: items,
-                      backgroundColor:
-                          stateTheme.currentTheme.scaffoldBackgroundColor,
-                      activeColor:
-                          stateTheme.currentTheme.colorScheme.secondary,
-                    );
-                  }
-                  return PinterestMenu(
-                    items: items,
-                    backgroundColor:
-                        stateTheme.currentTheme.scaffoldBackgroundColor,
-                    activeColor: stateTheme.currentTheme.colorScheme.secondary,
-                  );
-                },
+          child: BlocBuilder<PinterestBloc, PinterestState>(
+            builder: (context, state) {
+              if (state is IsShowMenu) {
+                return PinterestMenu(
+                  show: state.isShow,
+                  items: items,
+                  backgroundColor: appTheme.scaffoldBackgroundColor,
+                  activeColor: appTheme.colorScheme.secondary,
+                );
+              }
+              return PinterestMenu(
+                items: items,
+                backgroundColor: appTheme.scaffoldBackgroundColor,
+                activeColor: appTheme.colorScheme.secondary,
               );
             },
           ),
@@ -159,9 +155,10 @@ class _PinterestGridState extends State<PinterestGrid> {
 
   @override
   Widget build(BuildContext context) {
+    int count = (MediaQuery.of(context).size.width > 500) ? 3 : 2;
     return MasonryGridView.count(
       controller: scrollController,
-      crossAxisCount: 2,
+      crossAxisCount: count,
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
       itemCount: items.length,

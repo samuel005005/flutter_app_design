@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_design/src/bloc/theme/theme_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SliverListPage extends StatelessWidget {
   const SliverListPage({super.key});
@@ -28,9 +27,11 @@ class _ButtonNewList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    double width = MediaQuery.of(context).size.width;
+    width = (width > 500) ? width - 320 : width;
+
     return SizedBox(
-      width: size.width * .9,
+      width: width * .9,
       height: 100,
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
@@ -103,22 +104,8 @@ class _MainScroll extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   color: state.currentTheme.scaffoldBackgroundColor,
                   child: Stack(
-                    children: [
-                      Positioned(
-                        top: 30,
-                        left: -25,
-                        child: RawMaterialButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          shape: const CircleBorder(),
-                          child: const Icon(
-                            FontAwesomeIcons.arrowLeft,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                      const Padding(
+                    children: const [
+                      Padding(
                         padding: EdgeInsets.symmetric(vertical: 35),
                         child: _Title(),
                       ),

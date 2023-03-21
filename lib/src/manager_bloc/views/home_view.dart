@@ -7,6 +7,8 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final status = context.watch<ProductBloc>().state;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -15,21 +17,21 @@ class HomeView extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
-        title: BlocBuilder<ProductBloc, ProductState>(
-          builder: (context, state) => state is LoadedProducts
-              ? Text('Productos (${state.products.length})')
-              : const Text('Productos (0)'),
-        ),
+        title: status is LoadedProducts
+            ? Text('Productos (${status.products.length})')
+            : const Text('Productos (0)'),
       ),
-      body: BlocBuilder<ProductBloc, ProductState>(builder: (context, state) {
-        if (state is ProductLoadingState) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (state is LoadedProducts) {
-          return CustomListView(products: state.products);
-        }
-        return const SizedBox();
-      }),
+      body: BlocBuilder<ProductBloc, ProductState>(
+        builder: (context, state) {
+          if (state is ProductLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is LoadedProducts) {
+            return CustomListView(products: state.products);
+          }
+          return const SizedBox();
+        },
+      ),
     );
   }
 }
