@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoes_app/src/bloc/bloc/shoes_bloc.dart';
 
 class ShoesSizePreview extends StatelessWidget {
   const ShoesSizePreview({super.key});
@@ -49,27 +51,43 @@ class _ShoesSize extends StatelessWidget {
 
 class _ShowSizeBox extends StatelessWidget {
   final double size;
+
   const _ShowSizeBox(this.size);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      width: 45,
-      height: 45,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          //TODO:  BoxShadow(),
-        ],
-      ),
-      child: Text(
-        size.toString().replaceAll('.0', ''),
-        style: const TextStyle(
-          color: Color(0xffF1A23A),
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
+    final status = context.watch<ShoesBloc>().state;
+
+    final bool isSelected = (size == status.size);
+
+    return GestureDetector(
+      onTap: () {
+        context.read<ShoesBloc>().add(ChangeShoeSize(size: size));
+      },
+      child: Container(
+        alignment: Alignment.center,
+        width: 45,
+        height: 45,
+        decoration: BoxDecoration(
+          color: (isSelected) ? const Color(0xffF1A23A) : Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            if (isSelected)
+              const BoxShadow(
+                  color: Color(0xffF1A23A),
+                  blurRadius: 10,
+                  offset: Offset(0, 5)),
+          ],
+        ),
+        child: Text(
+          size.toString().replaceAll('.0', ''),
+          style: TextStyle(
+            color: (isSelected)
+                ? Colors.white
+                : const Color.fromARGB(255, 7, 6, 6),
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
