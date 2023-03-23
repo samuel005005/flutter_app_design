@@ -38,6 +38,9 @@ dependencies:
   bloc: ^8.1.1
   flutter_bloc: ^8.1.2
   meta: ^1.8.0
+  equatable: ^2.0.5
+  provider: ^6.0.5
+  animate_do: ^3.0.2
 
 dev_dependencies:
   flutter_test:

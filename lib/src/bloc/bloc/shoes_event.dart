@@ -11,5 +11,13 @@ class ChangeShoeSize extends ShoesEvent {
   const ChangeShoeSize({required this.size});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [size];
+}
+
+class ChangeShoeImage extends ShoesEvent {
+  final String assetImage;
+  const ChangeShoeImage({required this.assetImage});
+
+  @override
+  List<Object> get props => [assetImage];
 }

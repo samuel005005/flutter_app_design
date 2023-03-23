@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoes_app/src/bloc/bloc/shoes_bloc.dart';
+import 'package:shoes_app/src/pages/shoes_description_page.dart';
 
 class ShoesSizePreview extends StatelessWidget {
   final bool fullScreen;
@@ -6,28 +9,40 @@ class ShoesSizePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: fullScreen ? 0 : 30,
-        vertical: fullScreen ? 0 : 5,
-      ),
-      child: Container(
-        width: double.infinity,
-        height: 430,
-        decoration: BoxDecoration(
-          color: const Color(0xffFFCF53),
-          borderRadius: fullScreen
-              ? const BorderRadius.only(
-                  bottomLeft: Radius.circular(50),
-                  bottomRight: Radius.circular(50),
-                )
-              : BorderRadius.circular(50),
+    return GestureDetector(
+      onTap: () {
+        if (!fullScreen) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ShoesDescriptionPage(),
+            ),
+          );
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: fullScreen ? 0 : 30,
+          vertical: fullScreen ? 0 : 5,
         ),
-        child: Column(
-          children: [
-            const _ShoesWithShadows(),
-            if (!fullScreen) const _ShoesSize(),
-          ],
+        child: Container(
+          width: double.infinity,
+          height: 430,
+          decoration: BoxDecoration(
+            color: const Color(0xffFFCF53),
+            borderRadius: fullScreen
+                ? const BorderRadius.only(
+                    bottomLeft: Radius.circular(50),
+                    bottomRight: Radius.circular(50),
+                  )
+                : BorderRadius.circular(50),
+          ),
+          child: Column(
+            children: [
+              const _ShoesWithShadows(),
+              if (!fullScreen) const _ShoesSize(),
+            ],
+          ),
         ),
       ),
     );
@@ -63,13 +78,12 @@ class _ShowSizeBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final status = context.watch<ShoesBloc>().state;
-    const double statusSize = 7;
-    final bool isSelected = (size == statusSize);
+    final status = context.watch<ShoesBloc>().state;
+    final bool isSelected = (size == status.size);
 
     return GestureDetector(
       onTap: () {
-        // context.read<ShoesBloc>().add(ChangeShoeSize(size: size));
+        context.read<ShoesBloc>().add(ChangeShoeSize(size: size));
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 50),
@@ -82,9 +96,10 @@ class _ShowSizeBox extends StatelessWidget {
           boxShadow: [
             if (isSelected)
               const BoxShadow(
-                  color: Color(0xffF1A23A),
-                  blurRadius: 10,
-                  offset: Offset(0, 5)),
+                color: Color(0xffF1A23A),
+                blurRadius: 10,
+                offset: Offset(0, 5),
+              ),
           ],
         ),
         child: Text(
@@ -103,21 +118,23 @@ class _ShowSizeBox extends StatelessWidget {
 }
 
 class _ShoesWithShadows extends StatelessWidget {
+  final String ruta = "assets/images/";
   const _ShoesWithShadows();
 
   @override
   Widget build(BuildContext context) {
+    final assetImage = context.watch<ShoesBloc>().state.assetImage;
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Stack(
-        children: const <Widget>[
-          Positioned(
+        children: <Widget>[
+          const Positioned(
             bottom: 10,
             right: 0,
             child: _ShoesShadows(),
           ),
           Image(
-            image: AssetImage('assets/images/azul.png'),
+            image: AssetImage(ruta + assetImage),
           )
         ],
       ),
