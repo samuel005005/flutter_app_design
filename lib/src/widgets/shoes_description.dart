@@ -18,6 +18,7 @@ class ShoesDescription extends StatelessWidget {
             title,
             style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 20),
           Text(
             description,
             style: const TextStyle(color: Colors.black54, height: 1.6),
