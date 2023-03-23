@@ -12,12 +12,25 @@ class ShoesPage extends StatelessWidget {
       create: (context) => ShoesBloc(),
       child: Scaffold(
         body: Column(
-          children: const [
-            CustomAppBar(text: 'For you'),
-            SizedBox(
-              height: 20,
+          children: [
+            const CustomAppBar(text: 'For you'),
+            const SizedBox(height: 20),
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: const [
+                    ShoesSizePreview(),
+                    ShoesDescription(
+                      title: 'Nike Air Max 720',
+                      description:
+                          "The Nike Air Max 720 goes bigger than ever before with Nike's taller Air unit yet, offering more air underfoot for unimaginable, all-day comfort. Has Air Max gone too far? We hope so.",
+                    ),
+                  ],
+                ),
+              ),
             ),
-            ShoesSizePreview(),
+            const AddCarButton(amout: 180.0),
           ],
         ),
       ),

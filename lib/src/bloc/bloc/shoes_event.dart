@@ -1,9 +1,15 @@
 part of 'shoes_bloc.dart';
 
-@immutable
-abstract class ShoesEvent {}
+abstract class ShoesEvent extends Equatable {
+  const ShoesEvent();
+  @override
+  List<Object> get props => [];
+}
 
 class ChangeShoeSize extends ShoesEvent {
   final double size;
-  ChangeShoeSize({required this.size});
+  const ChangeShoeSize({required this.size});
+
+  @override
+  List<Object> get props => [];
 }

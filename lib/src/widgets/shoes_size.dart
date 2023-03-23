@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoes_app/src/bloc/bloc/shoes_bloc.dart';
 
 class ShoesSizePreview extends StatelessWidget {
-  const ShoesSizePreview({super.key});
+  final bool fullScreen;
+  const ShoesSizePreview({super.key, this.fullScreen = false});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      padding: EdgeInsets.symmetric(
+        horizontal: fullScreen ? 0 : 30,
+        vertical: fullScreen ? 0 : 5,
+      ),
       child: Container(
         width: double.infinity,
         height: 430,
         decoration: BoxDecoration(
           color: const Color(0xffFFCF53),
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: fullScreen
+              ? const BorderRadius.only(
+                  bottomLeft: Radius.circular(50),
+                  bottomRight: Radius.circular(50),
+                )
+              : BorderRadius.circular(50),
         ),
         child: Column(
-          children: const [
-            _ShoesWithShadows(),
-            _ShoesSize(),
+          children: [
+            const _ShoesWithShadows(),
+            if (!fullScreen) const _ShoesSize(),
           ],
         ),
       ),
@@ -56,15 +63,16 @@ class _ShowSizeBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final status = context.watch<ShoesBloc>().state;
-
-    final bool isSelected = (size == status.size);
+    // final status = context.watch<ShoesBloc>().state;
+    const double statusSize = 7;
+    final bool isSelected = (size == statusSize);
 
     return GestureDetector(
       onTap: () {
-        context.read<ShoesBloc>().add(ChangeShoeSize(size: size));
+        // context.read<ShoesBloc>().add(ChangeShoeSize(size: size));
       },
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 50),
         alignment: Alignment.center,
         width: 45,
         height: 45,
@@ -108,7 +116,9 @@ class _ShoesWithShadows extends StatelessWidget {
             right: 0,
             child: _ShoesShadows(),
           ),
-          Image(image: AssetImage('assets/images/azul.png'))
+          Image(
+            image: AssetImage('assets/images/azul.png'),
+          )
         ],
       ),
     );
