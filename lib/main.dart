@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:music_player/src/bloc/audio_player/audio_player_bloc.dart';
+
+import 'package:music_player/src/model/player_model.dart';
 import 'package:music_player/src/pages/music_player_page.dart';
 import 'package:music_player/src/themes/theme.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(const MyApp());
 
@@ -11,8 +12,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AudioPlayerBloc(),
+    return ChangeNotifierProvider(
+      create: (context) => PlayerModel(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Music Player',

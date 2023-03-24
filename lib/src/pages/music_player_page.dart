@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 
-import 'package:music_player/src/bloc/audio_player/audio_player_bloc.dart';
 import 'package:music_player/src/helpers/helpers.dart';
+import 'package:music_player/src/model/player_model.dart';
 import 'package:music_player/src/widgets/custom_app_bar.dart';
 
 class MusicPlayerPage extends StatelessWidget {
@@ -113,15 +113,16 @@ class _PlayTitleState extends State<_PlayTitle>
   }
 
   void open() {
-    final playerStatus = context.read<AudioPlayerBloc>();
+    final playerStatus = context.read<PlayerModel>();
     assetsAudioPlayer.open(Audio('assets/Breaking-Benjamin-Far-Away.mp3'));
 
     assetsAudioPlayer.currentPosition.listen((duration) {
-      playerStatus.state.currentDuration = duration;
+      playerStatus.currentDuration = duration;
     });
+
     assetsAudioPlayer.current.listen((playingAudio) {
-      const songDuration = Duration(minutes: 5);
-      playerStatus.state.sonDuration = songDuration;
+      final songDuration = playingAudio!.audio.duration;
+      playerStatus.sonDuration = songDuration;
     });
   }
 
@@ -152,8 +153,7 @@ class _PlayTitleState extends State<_PlayTitle>
               progress: playController,
             ),
             onPressed: () {
-              final managerMusic =
-                  context.read<AudioPlayerBloc>().state.controller;
+              final managerMusic = context.read<PlayerModel>().controller;
               if (isPlaying) {
                 playController.reverse();
                 isPlaying = false;
@@ -202,9 +202,8 @@ class _ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final playerStatus = context.watch<AudioPlayerBloc>().state;
+    final playerStatus = context.watch<PlayerModel>();
     final percentage = playerStatus.percentage;
-
     return Column(
       children: [
         Text(playerStatus.sonTotalDuration,
@@ -221,7 +220,7 @@ class _ProgressBar extends StatelessWidget {
               bottom: 0,
               child: Container(
                 width: 3,
-                height: 50,
+                height: 230 * percentage,
                 color: Colors.white.withOpacity(0.8),
               ),
             ),
@@ -240,7 +239,7 @@ class _ImageDisc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final playerStatus = context.read<AudioPlayerBloc>();
+    final playerStatus = context.read<PlayerModel>();
     return Container(
       width: 250,
       height: 250,
@@ -265,8 +264,8 @@ class _ImageDisc extends StatelessWidget {
               infinite: true,
               animate: false,
               manualTrigger: true,
-              controller: (controler) {
-                playerStatus.state.controller = controler;
+              controller: (controller) {
+                playerStatus.controller = controller;
               },
               child: const Image(
                 image: AssetImage('assets/aurora.jpg'),

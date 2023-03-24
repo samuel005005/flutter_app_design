@@ -1,20 +1,25 @@
-part of 'audio_player_bloc.dart';
+import 'package:flutter/material.dart';
 
-abstract class AudioPlayerState {
-  late final AnimationController controller;
+class PlayerModel extends ChangeNotifier {
+  late AnimationController controller;
+
   final bool isPlaying = false;
+
   Duration _sonDuration = const Duration(milliseconds: 0);
   Duration _currentDuration = const Duration(milliseconds: 0);
 
-  set currentDuration(Duration value) {
-    _currentDuration = value;
-  }
-
   set sonDuration(Duration value) {
     _sonDuration = value;
+    notifyListeners();
+  }
+
+  set currentDuration(Duration value) {
+    _currentDuration = value;
+    notifyListeners();
   }
 
   String get sonTotalDuration => _printDuration(_sonDuration);
+
   String get currentTotalDuration => _printDuration(_currentDuration);
 
   double get percentage => _sonDuration.inSeconds > 0
@@ -31,8 +36,4 @@ abstract class AudioPlayerState {
     String twoDigitsSeconds = twoDigits(duration.inSeconds.remainder(60));
     return '$twoDigitsMinutes:$twoDigitsSeconds';
   }
-}
-
-class AudioPlayerInitial extends AudioPlayerState {
-  AudioPlayerInitial();
 }
