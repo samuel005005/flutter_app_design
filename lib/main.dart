@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:music_player/src/bloc/bloc/audio_player_bloc.dart';
+import 'package:music_player/src/bloc/audio_player/audio_player_bloc.dart';
 import 'package:music_player/src/pages/music_player_page.dart';
 import 'package:music_player/src/themes/theme.dart';
 

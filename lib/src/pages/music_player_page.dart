@@ -1,7 +1,10 @@
 import 'package:animate_do/animate_do.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:music_player/src/bloc/bloc/audio_player_bloc.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
+
+import 'package:music_player/src/bloc/audio_player/audio_player_bloc.dart';
 import 'package:music_player/src/helpers/helpers.dart';
 import 'package:music_player/src/widgets/custom_app_bar.dart';
 
@@ -93,6 +96,8 @@ class _PlayTitleState extends State<_PlayTitle>
     with SingleTickerProviderStateMixin {
   bool isPlaying = false;
   late AnimationController playController;
+  bool firtTime = true;
+  final assetsAudioPlayer = AssetsAudioPlayer();
 
   @override
   void initState() {
@@ -105,6 +110,19 @@ class _PlayTitleState extends State<_PlayTitle>
   void dispose() {
     playController.dispose();
     super.dispose();
+  }
+
+  void open() {
+    final playerStatus = context.read<AudioPlayerBloc>();
+    assetsAudioPlayer.open(Audio('assets/Breaking-Benjamin-Far-Away.mp3'));
+
+    assetsAudioPlayer.currentPosition.listen((duration) {
+      playerStatus.state.currentDuration = duration;
+    });
+    assetsAudioPlayer.current.listen((playingAudio) {
+      const songDuration = Duration(minutes: 5);
+      playerStatus.state.sonDuration = songDuration;
+    });
   }
 
   @override
@@ -145,6 +163,12 @@ class _PlayTitleState extends State<_PlayTitle>
                 isPlaying = true;
                 managerMusic.repeat();
               }
+              if (firtTime) {
+                open();
+                firtTime = false;
+              } else {
+                assetsAudioPlayer.playOrPause();
+              }
             },
           )
         ],
@@ -178,9 +202,13 @@ class _ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final playerStatus = context.watch<AudioPlayerBloc>().state;
+    final percentage = playerStatus.percentage;
+
     return Column(
       children: [
-        Text("0:00", style: TextStyle(color: Colors.white.withOpacity(0.4))),
+        Text(playerStatus.sonTotalDuration,
+            style: TextStyle(color: Colors.white.withOpacity(0.4))),
         const SizedBox(height: 10),
         Stack(
           children: [
@@ -200,7 +228,8 @@ class _ProgressBar extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        Text("0:00", style: TextStyle(color: Colors.white.withOpacity(0.4))),
+        Text(playerStatus.currentTotalDuration,
+            style: TextStyle(color: Colors.white.withOpacity(0.4))),
       ],
     );
   }
