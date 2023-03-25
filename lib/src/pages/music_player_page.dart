@@ -66,8 +66,6 @@ class _Lyrics extends StatelessWidget {
     return ListWheelScrollView(
       physics: const BouncingScrollPhysics(),
       itemExtent: 42,
-      // diameterRatio: 1.5,
-      // offAxisFraction: -0.5,
       useMagnifier: true,
       magnification: 1.5,
       children: lyrics
